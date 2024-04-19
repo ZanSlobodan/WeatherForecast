@@ -10,6 +10,7 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class CurrentWeatherComponent {
   weather: Weather = new Weather();
+  temp: number = 0
 
   name: FormControl = new FormControl('');
 
@@ -19,6 +20,7 @@ export class CurrentWeatherComponent {
     this.service.getWeather(this.name.value).subscribe({
       next: (data: Weather) => {
         this.weather = data
+        this.temp = Math.round(this.weather.main.temp)
         console.log(data)
       }
     })
