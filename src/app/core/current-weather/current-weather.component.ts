@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { WeatherForecast } from 'src/app/models/forecast.model';
 import { Weather } from 'src/app/models/weather.model';
 import { WeatherService } from 'src/app/services/weather.service';
 
@@ -10,7 +11,10 @@ import { WeatherService } from 'src/app/services/weather.service';
 })
 export class CurrentWeatherComponent {
   weather: Weather = new Weather();
-  temp: number = 0
+  forecast: WeatherForecast = new WeatherForecast();
+  temp: number = 0;
+  tempH: number = 0;
+  tempL: number = 0;
 
   name: FormControl = new FormControl('');
 
@@ -21,6 +25,17 @@ export class CurrentWeatherComponent {
       next: (data: Weather) => {
         this.weather = data
         this.temp = Math.round(this.weather.main.temp)
+        this.tempH = Math.round(this.weather.main.temp_max)
+        this.tempL = Math.round(this.weather.main.temp_min)
+        console.log(data)
+      }
+    })
+  }
+
+  getForecast(): void {
+    this.service.getForecast(this.name.value).subscribe({
+      next: (data: WeatherForecast) => {
+        this.forecast = data
         console.log(data)
       }
     })
